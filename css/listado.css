@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#volverNav a {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+#tituloListado {
+    text-align: center;
+}
+
+.contListado {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+}
+
+#tituloListado {
+    text-align: center;
+}
+
+#selectores {
+    display: flex;
+    gap: 10px;
+    max-width: 500px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#contTarjetas {
+    max-width: 1000px;
+    width: 100%;
+}
+
+fieldset {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid black;
+}
+
+.tarjetaAvistamiento {
+    display: flex;
+    align-items: center;
+    background-color: #FFF9C4;
+    border-radius: 8px;
+    border: 2px solid black;
+    padding: 10px;
+    margin-bottom: 5px;
+    gap: 100px;
+}
+
+.tarjetaAvistamiento img {
+    max-width: 250px;
+    height: auto;
+    margin-left: auto;
+}
+
+#selectorPaginas {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: center;
+    margin: 20px auto 0 auto;
+}
+
+#selectorPaginas button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#selectorPaginas button:hover {
+    background-color: #0056b3;
+}

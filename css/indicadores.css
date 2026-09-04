@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.contIndicadores {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    width: 100%;
+    padding: 20px;
+}
+
+#volverNav a {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+#tituloIndicadores {
+    text-align: center;
+}
+
+#graficoAvistamientos,
+#graficoVoluntarios {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid black;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+}
+
+#graficoAvistamientos h2,
+#graficoVoluntarios h2 {
+    margin-bottom: 30px;
+}
+
+#contGraficoAvistamientos,
+#contGraficoVoluntarios {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 20px;
+    height: 200px;
+    margin-top: 20px;
+}
+
+.grupoBarra {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.barra {
+    width: 40px;
+    background-color: #FFF9C4;
+    border: 2px solid black;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.valorBarra {
+    position: absolute;
+    top: -20px;
+    font-weight: bold;
+}
+
+.nombreBarra {
+    margin-top: 8px;
+    font-size: 12px;
+    max-width: 60px;
+    text-align: center;
+}

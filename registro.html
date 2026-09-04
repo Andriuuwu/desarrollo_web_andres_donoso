@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Registro de Voluntarios</title>
+    <link rel="stylesheet" type="text/css" href="./css/registro.css">
+</head>
+<body>
+    <main class="contPrincipal">
+        <h1 id="saludo">Registro de Voluntarios</h1>
+        <p id="alerta">Campo obligatorio (*)</p>
+        <div id="cajaVal" hidden>
+            <h2 id="msgVal"></h2>
+            <ul id="listVal"></ul>
+        </div>
+        <form name="regForm">
+            <label for="nombre">Nombre*</label>
+            <input type="text" name="nombre" id="nombre" minlength="7" required><br>
+
+            <label for="email">Email*</label>
+            <input type="email" name="email" id="email" minlength="10" required><br>
+
+            <label for="telefono">Teléfono*</label>
+            <input type="text" name="telefono" id="telefono" minlength="12" required><br>
+
+            <label for="selectRegion">Región*</label>
+            <select name="selectRegion" id="selectRegion" required>
+                <option value="">Seleccione su Región</option>
+            </select><br>
+
+            <label for="selectComuna">Comuna*</label>
+            <select name="selectComuna" id="selectComuna" required>
+                <option value="">Seleccione su Comuna</option>
+            </select><br>
+
+            <button id="submitButton" type="button">Registro</button>
+        </form>
+    </main>
+    <script src="./js/selector.js"></script>
+    <script src="./js/registro.js"></script>
+</body> 
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Listado de Avistamientos</title>
+    <link rel="stylesheet" type="text/css" href="./css/listado.css">
+</head>
+<body>
+    <main class="contListado">
+        <div id="volverNav">
+        <a href="avistamiento.html">Volver</a>
+        </div>
+        <h1 id="tituloListado">Listado de Avistamientos de Aves</h1>
+        <div id="selectores">
+            <fieldset id="selectFiltro">
+                <label for="filtroAve">Filtrar por Ave:</label>
+                <select name="filtroAve" id="filtroAve">
+                    <option value="">Sin ave definida</option>
+                    <option value="acuatica">Acuatica</option>
+                    <option value="andina">Andina/Altiplanica</option>
+                    <option value="migratoria">Migratoria</option>
+                    <option value="nocturna">Nocturna</option>
+                    <option value="otra">Otra</option>
+                    <option value="paseriforme">Paseriforme</option>
+                    <option value="playera">Playera/Costera</option>
+                    <option value="rapaz">Rapaz</option>
+                </select>  
+            </fieldset>
+            
+            <fieldset id="selectOrden">
+                <label for="ordenDatos">Ordenar según:</label>
+                <select name="ordenDatos" id="ordenDatos">
+                    <option value="">Sin orden</option>
+                    <option value="fecha">Fecha (más reciente primero)</option>
+                    <option value="lugar">Lugar (A-Z)</option>
+                </select> 
+            </fieldset>   
+        </div>
+
+        <div id="listaAvistamientos">
+            <div id="contTarjetas"></div>
+        </div>
+
+        <div id="selectorPaginas">
+            <button id="btnAnterior" type="button">Anterior</button>
+            <span id="textoPagina">Página 1 de 2</span>
+            <button id="btnSiguiente" type="button">Siguiente</button>
+        </div>
+    </main>
+    <script src="./js/listado.js"></script>
+</body>
+</html>
