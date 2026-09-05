@@ -68,7 +68,7 @@ button#submitButton:hover {
     border-radius: 4px;
 }
 
-#cajaVal h2 {
+#cajaVal p {
     margin: 0 0 10px 0;
     font-size: 18px;
 }
