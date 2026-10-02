@@ -17,17 +17,15 @@ const validarLugar = (lugar) => {
 const validarFecha = (fecha) => {
     if (!fecha) return false;
     let hoy = new Date();
+    let fechaIngresada = new Date(fecha);
     let limiteInferior = new Date();
-    limiteInferior.setDate(limiteInferior.getDate() - 60);
-    let fechaValida = fecha <= formatoFecha(hoy) && formatoFecha(limiteInferior) <= fecha;
+    limiteInferior.setMonth(limiteInferior.getMonth()-2);
+    let fechaValida = fechaIngresada <= hoy && limiteInferior <= fechaIngresada;
     return fechaValida;
 };
 
-const validarHora = (hora, fecha) => {
+const validarHora = (hora) => {
     if (!hora) return false;
-    let ahora = new Date();
-    let horaActual = `${dosDigitos(ahora.getHours())}:${dosDigitos(ahora.getMinutes())}`;
-    if (fecha == formatoFecha(ahora) && hora > horaActual) return false;
     return true;
 };
 
@@ -72,10 +70,10 @@ const validarForm = () => {
         esInvalidoInput("Lugar: Debe tener entre 3 y 200 caracteres.");
     }
     if (!validarFecha(fecha)) {
-        esInvalidoInput("Fecha: Debe estar entre los últimos 60 días y hoy.");
+        esInvalidoInput("Fecha: Debe estar entre los últimos 2 meses y hoy.");
     }
-    if (!validarHora(hora, fecha)) {
-        esInvalidoInput("Hora: Debe ingresar una hora que no sea futura.");
+    if (!validarHora(hora)) {
+        esInvalidoInput("Hora: Debe ingresar una hora.");
     }
     if (!validarArchivo(archivoAve)) {
         esInvalidoInput("Archivo: Debe adjuntar al menos una foto o video (solo imágenes o videos).");
