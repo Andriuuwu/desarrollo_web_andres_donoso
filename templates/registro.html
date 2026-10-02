@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Registro de Voluntarios{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/registro.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="contenedor-registro">
+    <h2 id="saludo">Registro de Voluntarios</h2>
+    <p id="alerta">Campo obligatorio (*)</p>
+
+    <div class="contPrincipal">
+        {% if errores %}
+            <div class="error-servidor">
+                <p><strong>Por favor, corrija los siguientes errores:</strong></p>
+                <ul>
+                    {% for e in errores %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <div id="cajaVal" hidden>
+            <p id="msgVal"></p>
+            <ul id="listVal"></ul>
+        </div>
+
+        <form name="regForm" action="{{ url_for('registro') }}" method="POST">
+            <label for="nombre">Nombre y Apellido*</label>
+            <input type="text" name="nombre" id="nombre" minlength="3" maxlength="255" value="{{ datos.get('nombre', '') }}" required><br>
+
+            <label for="email">Email*</label>
+            <input type="email" name="email" id="email" maxlength="80" value="{{ datos.get('email', '') }}" required><br>
+
+            <label for="telefono">Teléfono*</label>
+            <input type="text" name="telefono" id="telefono" minlength="12" maxlength="15" value="{{ datos.get('telefono', '') }}" required><br>
+
+            <label for="selectRegion">Región*</label>
+            <select name="region" id="selectRegion" required>
+                <option value="">Seleccione su Región</option>
+                {% for region in regiones %}
+                    <option value="{{ region.id }}" {% if datos.get('region') == region.id|string %}selected{% endif %}>{{ region.nombre }}</option>
+                {% endfor %}
+            </select><br>
+
+            <label for="selectComuna">Comuna*</label>
+            <select name="comuna" id="selectComuna" required>
+                <option value="">Seleccione su Comuna</option>
+                {% for comuna in comunas %}
+                    <option value="{{ comuna.id }}" data-region="{{ comuna.region_id }}" {% if datos.get('comuna') == comuna.id|string %}selected{% endif %}>{{ comuna.nombre }}</option>
+                {% endfor %}
+            </select><br>
+
+            <button id="submitButton" type="button">Registro</button>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/selector.js') }}"></script>
+<script src="{{ url_for('static', filename='js/registro.js') }}"></script>
+{% endblock %}

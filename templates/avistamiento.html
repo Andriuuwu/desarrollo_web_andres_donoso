@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Avistamiento{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/avistamiento.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="contAvistamiento">
+    <h2 id="tituloAvistamiento">Registrar Avistamiento</h2>
+    <section id="formAvistamiento">
+        <h2 id="textoObligatorio">Campo obligatorio (*)</h2>
+        {% if errores %}
+            <div class="error-servidor">
+                <p><strong>Por favor, corrija los siguientes errores:</strong></p>
+                <ul>
+                    {% for e in errores %}
+                        <li>{{ e }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <div id="cajaVal" hidden>
+            <p id="msgVal"></p>
+            <ul id="listVal"></ul>
+        </div>
+        <form name="avisForm" action="{{ url_for('avistamiento') }}" method="POST" enctype="multipart/form-data">
+            <label for="voluntario">Voluntario*</label>
+            <select name="voluntario" id="voluntario" required>
+                <option value="">Seleccione el voluntario</option>
+                {% for v in voluntarios %}
+                    <option value="{{ v.id }}" {% if datos.get('voluntario') == v.id|string %}selected{% endif %}>{{ v.nombre }} ({{ v.email }})</option>
+                {% endfor %}
+            </select>
+            <label for="ave">Ave*</label>
+            <select name="ave" id="ave" required>
+                <option value="">Seleccione el ave</option>
+                {% for a in aves %}
+                    <option value="{{ a.id }}" {% if datos.get('ave') == a.id|string %}selected{% endif %}>{{ a.nombre }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="lugar">Lugar del Avistamiento*</label>
+            <input type="text" name="lugar" id="lugar" minlength="3" maxlength="200" value="{{ datos.get('lugar', '') }}" required>
+
+            <label for="fecha">Fecha del Avistamiento*</label>
+            <input type="date" name="fecha" id="fecha" value="{{ datos.get('fecha', '') }}" required>
+
+            <label for="hora">Hora del Avistamiento*</label>
+            <input type="time" name="hora" id="hora" value="{{ datos.get('hora', '') }}" required>
+
+            <label for="archivoAve">Registro del Ave*</label>
+            <input type="file" name="archivoAve" id="archivoAve" multiple accept="image/*,video/*" required>
+
+            <button id="avisButton" type="button">Enviar</button>
+        </form>
+    </section>
+</section>
+
+<script src="{{ url_for('static', filename='js/avistamiento.js') }}"></script>
+{% endblock %}

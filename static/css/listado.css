@@ -1,0 +1,116 @@
+.contListado {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+}
+
+#tituloListado {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+}
+
+#formFiltros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#formFiltros fieldset {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 2px solid black;
+}
+
+#contTarjetasListado {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tarjetaListado {
+    display: flex;
+    align-items: center;
+    background-color: #FFF9C4;
+    border-radius: 8px;
+    border: 2px solid black;
+    padding: 10px;
+    gap: 20px;
+    color: #000;
+    text-decoration: none;
+}
+
+.tarjetaListado:hover {
+    background-color: #FFF59D;
+}
+
+.infoTarjetaListado p {
+    margin: 5px 0;
+    color: #000;
+}
+
+.tarjetaListado img,
+.tarjetaListado video {
+    max-width: 250px;
+    height: auto;
+    margin-left: auto;
+}
+
+.sinAvistamientos,
+.textoPagina {
+    text-align: center;
+    color: #555;
+}
+
+#selectorPaginas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.botonPagina {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+a.botonPagina:hover {
+    background-color: #0056b3;
+}
+
+.botonDeshabilitado {
+    background-color: #ccc;
+    color: #666;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .contListado {
+        padding: 15px;
+    }
+
+    .tarjetaListado {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .tarjetaListado img,
+    .tarjetaListado video {
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    #selectorPaginas {
+        flex-wrap: wrap;
+    }
+}

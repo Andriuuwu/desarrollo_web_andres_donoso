@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Portada - Avistamiento de Aves{% endblock %}
+
+{% block content %}
+<section class="contPortada">
+    {% for mensaje in get_flashed_messages() %}
+        <div class="mensajeExito">{{ mensaje }}</div>
+    {% endfor %}
+    <h2>Bienvenido al Sistema de Avistamiento de Aves</h2>
+    <p>Registra y comparte los avistamientos de aves que observas en tu comunidad.</p>
+
+    <hr>
+
+    <h3>Últimos Avistamientos</h3>
+
+    {% if ultimos %}
+        <div id="contTarjetas">
+            {% for avistamiento in ultimos %}
+                <div class="tarjetaAvistamiento">
+                    <h4>{{ avistamiento.ave }}</h4>
+                    <p><strong>Voluntario:</strong> {{ avistamiento.voluntario }}</p>
+                    <p><strong>Fecha:</strong> {{ avistamiento.fecha.strftime('%d/%m/%Y %H:%M') }}</p>
+                    <p><strong>Lugar:</strong> {{ avistamiento.lugar }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="sinAvistamientos">No hay avistamientos registrados aún.</p>
+    {% endif %}
+</section>
+{% endblock %}

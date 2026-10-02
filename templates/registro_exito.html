@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Registro exitoso{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/registro_exito.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="contExito">
+    <div class="iconoExito">✓</div>
+    <h2 id="tituloExito">¡Registro exitoso!</h2>
+    <p>Gracias, {{ nombre }}. Tu registro como voluntario se completó correctamente.</p>
+    <p id="textoPregunta">¿Qué quieres hacer ahora?</p>
+
+    <div class="botones-exito">
+        <a href="{{ url_for('avistamiento', voluntario=voluntario_id) }}" class="btn-accion btn-avistamiento">Registrar un avistamiento</a>
+        <a href="{{ url_for('portada') }}" class="btn-accion btn-inicio">Ir al inicio</a>
+    </div>
+</section>
+{% endblock %}

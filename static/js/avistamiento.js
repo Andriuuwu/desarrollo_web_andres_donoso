@@ -1,39 +1,39 @@
-const validarAve = (nombre) => {
-    if (!nombre) return false;
-    let longitudValida = nombre.trim().length >= 3;
-    return longitudValida;
+const validarVoluntario = (voluntario) => {
+    if (!voluntario) return false;
+    return true;
 };
 
-const validarTipoAve = (select) => {
-    if (!select) return false;
+const validarAve = (ave) => {
+    if (!ave) return false;
     return true;
 };
 
 const validarLugar = (lugar) => {
     if (!lugar) return false;
-    let longitudValida = lugar.trim().length >= 4;
+    let longitudValida = lugar.trim().length >= 3 && lugar.length <= 200;
     return longitudValida;
 };
 
 const validarFecha = (fecha) => {
     if (!fecha) return false;
     let hoy = new Date();
-    let fechaIngresada = new Date(fecha);
     let limiteInferior = new Date();
-    limiteInferior.setMonth(limiteInferior.getMonth()-2); // 2 meses anteriores al día de hoy
-    let fechaValida = fechaIngresada <= hoy && limiteInferior <= fechaIngresada;
+    limiteInferior.setDate(limiteInferior.getDate() - 60);
+    let fechaValida = fecha <= formatoFecha(hoy) && formatoFecha(limiteInferior) <= fecha;
     return fechaValida;
 };
 
-const validarHora = (hora) => {
+const validarHora = (hora, fecha) => {
     if (!hora) return false;
+    let ahora = new Date();
+    let horaActual = `${dosDigitos(ahora.getHours())}:${dosDigitos(ahora.getMinutes())}`;
+    if (fecha == formatoFecha(ahora) && hora > horaActual) return false;
     return true;
 };
 
 const validarArchivo = (archivos) => {
     if (!archivos) return false;
 
-    // Establecemos un mínimo número de archivos 
     let longitudValida = 1 <= archivos.length;
     let tipoValido = true;
 
@@ -47,14 +47,13 @@ const validarArchivo = (archivos) => {
 
 const validarForm = () => {
     let formulario = document.forms["avisForm"];
-    let nombreAve = formulario["nombreAve"].value;
-    let tipoAve = formulario["tipoAve"].value;
+    let voluntario = formulario["voluntario"].value;
+    let ave = formulario["ave"].value;
     let lugar = formulario["lugar"].value;
     let fecha = formulario["fecha"].value;
     let hora = formulario["hora"].value;
     let archivoAve = formulario["archivoAve"].files;
 
-    // Variables de validación
     let inputsInvalidos = [];
     let esValido = true;
 
@@ -63,26 +62,25 @@ const validarForm = () => {
         esValido &&= false;
     };
 
-    if (!validarAve(nombreAve)) {
-        esInvalidoInput("Nombre del Ave");
+    if (!validarVoluntario(voluntario)) {
+        esInvalidoInput("Voluntario: Debe seleccionar un voluntario.");
     }
-    if (!validarTipoAve(tipoAve)) {
-        esInvalidoInput("Tipo de Ave");
+    if (!validarAve(ave)) {
+        esInvalidoInput("Ave: Debe seleccionar un ave.");
     }
     if (!validarLugar(lugar)) {
-        esInvalidoInput("Lugar");
+        esInvalidoInput("Lugar: Debe tener entre 3 y 200 caracteres.");
     }
     if (!validarFecha(fecha)) {
-        esInvalidoInput("Fecha");
+        esInvalidoInput("Fecha: Debe estar entre los últimos 60 días y hoy.");
     }
-    if (!validarHora(hora)) {
-        esInvalidoInput("Hora");
+    if (!validarHora(hora, fecha)) {
+        esInvalidoInput("Hora: Debe ingresar una hora que no sea futura.");
     }
     if (!validarArchivo(archivoAve)) {
-        esInvalidoInput("Archivo");
+        esInvalidoInput("Archivo: Debe adjuntar al menos una foto o video (solo imágenes o videos).");
     }
 
-    // Elementos del HTML para mostrar la validación
     let cajaValidacion = document.getElementById("cajaVal");
     let msgValidacion = document.getElementById("msgVal");
     let listaValidacion = document.getElementById("listVal");
@@ -96,28 +94,13 @@ const validarForm = () => {
             listaValidacion.append(listaElementos);
         }
 
-        msgValidacion.innerText = "Los siguientes campos son inválidos:";
+        msgValidacion.innerText = "Por favor, corrija los siguientes errores:";
         cajaValidacion.style.backgroundColor = "#ffdddd";
         cajaValidacion.style.borderLeftColor = "#f44336";
         cajaValidacion.hidden = false;
 
     } else {
-        formulario.style.display = "none";
-        let textoObligatorio = document.getElementById("textoObligatorio");
-        textoObligatorio.hidden = true;
-
-        msgValidacion.innerText = "¡Avistamiento enviado!";
-        listaValidacion.textContent = "";
-
-        cajaValidacion.style.backgroundColor = "#ddffdd";
-        cajaValidacion.style.borderLeftColor = "#4CAF50";
-        cajaValidacion.hidden = false;
-
-        setTimeout(() => {
-            formulario.style.display = "block";
-            cajaValidacion.hidden = true;
-            textoObligatorio.hidden = false;  
-        }, 1500);
+        formulario.submit();
     }
 };
 

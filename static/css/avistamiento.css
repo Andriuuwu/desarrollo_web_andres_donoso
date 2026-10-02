@@ -1,21 +1,28 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.contPrincipal {
+.contAvistamiento {
     background-color: #fff;
+    display: flex;
+    gap: 20px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    max-width: 500px;
     width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#tituloAvistamiento {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+}
+
+#textoObligatorio {
+    color: #777777;
+}
+
+#formAvistamiento {
+    flex: 2;
 }
 
 label {
@@ -25,8 +32,10 @@ label {
     color: #333;
 }
 
-input[type="email"],
 input[type="text"],
+input[type="file"],
+input[type="date"],
+input[type="time"],
 select {
     width: 100%;
     padding: 8px;
@@ -36,6 +45,9 @@ select {
     font-size: 14px;
     box-sizing: border-box;
     background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
     color: #333;
 }
 
@@ -45,7 +57,11 @@ select {
     padding-right: 30px;
 }
 
-button#submitButton {
+input[type="file"] {
+    padding: 5px 8px;
+}
+
+#avisButton {
     width: 100%;
     padding: 10px;
     background-color: #28a745;
@@ -56,7 +72,7 @@ button#submitButton {
     font-size: 16px;
 }
 
-button#submitButton:hover {
+#avisButton:hover {
     background-color: #218838;
 }
 
@@ -77,15 +93,34 @@ button#submitButton:hover {
     padding-left: 20px;
     margin: 0;
     list-style-type: disc;
-    color: #504e4e;
+    color: #a94442;
+}
+
+.error-servidor {
+    background-color: #ffdddd;
+    border-left: 6px solid #f44336;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.error-servidor p {
+    color: #f44336;
+    margin: 0;
+}
+
+.error-servidor ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+    color: #f44336;
 }
 
 @media (max-width: 480px) {
-    .contPrincipal {
+    .contAvistamiento {
         padding: 15px;
     }
-    
-    button#submitButton {
+
+    #avisButton {
         padding: 8px;
         font-size: 14px;
     }

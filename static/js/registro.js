@@ -1,29 +1,26 @@
 const validarNombre = (nombre) => {
     if (!nombre) return false;
-    let longitudValida = nombre.trim().length >= 7;
+
+    let longitudValida = nombre.trim().length >= 3 && nombre.trim().length <= 255;
     return longitudValida;
 };
 
 const validarEmail = (email) => {
     if (!email) return false;
-    let longitudValida = email.length >= 10;
 
-    // Validamos el formato a través de expresiones regulares
-    let eR = /^[\w.]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,3}$/;
+        let eR = /^[\w.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
     let formatoValido = eR.test(email);
 
-    return longitudValida && formatoValido;
+    return formatoValido;
 };
 
 const validarTelefono = (telefono) => {
     if (!telefono) return false;
-    let longitudValida = telefono.length >= 12;
 
-    // "\d" significa cualquier digito del 0 a 9.
     let eR = /^\+569\d{8}$/;
     let formatoValido = eR.test(telefono);
 
-    return longitudValida && formatoValido;
+    return formatoValido;
 };
 
 const validarSelect = (select) => {
@@ -31,7 +28,10 @@ const validarSelect = (select) => {
     return true;
 };
 
-const validarForm = () => {
+const validarForm = (evento) => {
+
+    evento.preventDefault();
+
     let formulario = document.forms["regForm"];
     let nombre = formulario["nombre"].value;
     let email = formulario["email"].value;
@@ -39,38 +39,36 @@ const validarForm = () => {
     let region = formulario["selectRegion"].value;
     let comuna = formulario["selectComuna"].value;
 
-    // Variables de validación
     let inputsInvalidos = [];
     let esValido = true;
 
-    const esInputInvalido = (input) => {
-        inputsInvalidos.push(input);
-        esValido &&= false;
+    const esInputInvalido = (mensaje) => {
+        inputsInvalidos.push(mensaje);
+        esValido = false;
     };
 
     if (!validarNombre(nombre)) {
-        esInputInvalido("Nombre");
+        esInputInvalido("Nombre: Debe tener al menos 3 caracteres.");
     }
     if (!validarEmail(email)) {
-        esInputInvalido("Email");
+        esInputInvalido("Email: Ingrese un correo válido (ej. usuario@dominio.com).");
     }
     if (!validarTelefono(telefono)) {
-        esInputInvalido("Teléfono");
+        esInputInvalido("Teléfono: Debe seguir el formato +569XXXXXXXX (8 dígitos después del +569).");
     }
     if (!validarSelect(region)) {
-        esInputInvalido("Región");
+        esInputInvalido("Región: Debe seleccionar una región.");
     }
     if (!validarSelect(comuna)) {
-        esInputInvalido("Comuna");
+        esInputInvalido("Comuna: Debe seleccionar una comuna.");
     }
 
-    // Elementos del HTML para mostrar la validación
     let cajaValidacion = document.getElementById("cajaVal");
     let msgValidacion = document.getElementById("msgVal");
     let listaValidacion = document.getElementById("listVal");
 
     if (!esValido) {
-        listaValidacion.textContent = "";
+        listaValidacion.innerHTML = "";
 
         for (const input of inputsInvalidos) {
             let listaElementos = document.createElement("li");
@@ -78,31 +76,18 @@ const validarForm = () => {
             listaValidacion.append(listaElementos);
         }
 
-        msgValidacion.innerText = "Los siguientes campos son inválidos:";
+        msgValidacion.innerText = "Por favor, corrija los siguientes errores:";
         cajaValidacion.style.backgroundColor = "#ffdddd";
         cajaValidacion.style.borderLeftColor = "#f44336";
         cajaValidacion.hidden = false;
 
     } else {
-        let saludo = document.getElementById("saludo");
-        let alerta = document.getElementById("alerta");
 
-        formulario.style.display = "none";
-
-        msgValidacion.innerText = "¡Formulario válido!";
-        listaValidacion.textContent = "Redirigiendo...";
-
-        cajaValidacion.style.backgroundColor = "#ddffdd";
-        cajaValidacion.style.borderLeftColor = "#4CAF50";
-        cajaValidacion.hidden = false;
-        saludo.hidden = true;
-        alerta.hidden = true;
-
-        setTimeout(() => {
-            window.location.href = "avistamiento.html";
-        }, 1500); // 1000 milisegundos = 1 segundo
+        formulario.submit();
     }
 };
 
 let botonRegistro = document.getElementById("submitButton");
-botonRegistro.addEventListener("click", validarForm);
+botonRegistro.addEventListener("click", function(event) {
+    validarForm(event);
+});

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Listado - Avistamiento de Aves{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/listado.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="contListado">
+    <h2 id="tituloListado">Listado de Avistamientos de Aves</h2>
+
+    <form id="formFiltros" action="{{ url_for('listado') }}" method="GET">
+        <fieldset id="selectFiltro">
+            <label for="filtroAve">Filtrar por Ave:</label>
+            <select name="ave" id="filtroAve">
+                <option value="">Todas las aves</option>
+                {% for a in aves %}
+                    <option value="{{ a.id }}" {% if ave_id == a.id %}selected{% endif %}>{{ a.nombre }}</option>
+                {% endfor %}
+            </select>
+        </fieldset>
+
+        <fieldset id="selectOrden">
+            <label for="ordenDatos">Ordenar según:</label>
+            <select name="orden" id="ordenDatos">
+                <option value="" {% if orden == "" %}selected{% endif %}>Sin orden</option>
+                <option value="fecha" {% if orden == "fecha" %}selected{% endif %}>Fecha (más reciente primero)</option>
+                <option value="lugar" {% if orden == "lugar" %}selected{% endif %}>Lugar (A-Z)</option>
+            </select>
+        </fieldset>
+        <noscript><button type="submit" class="botonPagina">Aplicar</button></noscript>
+    </form>
+
+    <div id="contTarjetasListado">
+        {% for avistamiento in avistamientos %}
+                <a class="tarjetaListado" href="{{ url_for('detalle', avistamiento_id=avistamiento.id, pagina=pagina, ave=ave_id, orden=orden or None) }}">
+                <div class="infoTarjetaListado">
+                    <p><strong>Ave:</strong> {{ avistamiento.ave }}</p>
+                    <p><strong>Lugar:</strong> {{ avistamiento.lugar }}</p>
+                    <p><strong>Fecha:</strong> {{ avistamiento.fecha.strftime('%d/%m/%Y') }}</p>
+                    <p><strong>Hora:</strong> {{ avistamiento.fecha.strftime('%H:%M') }}</p>
+                </div>
+                {% if avistamiento.tipo == "imagen" %}
+                    <img src="{{ url_for('static', filename=avistamiento.archivo) }}" alt="Imagen de: {{ avistamiento.ave }}">
+                {% elif avistamiento.tipo == "video" %}
+                    <video src="{{ url_for('static', filename=avistamiento.archivo) }}" muted preload="metadata"></video>
+                {% endif %}
+            </a>
+        {% else %}
+            <p class="sinAvistamientos">No hay avistamientos registrados aún.</p>
+        {% endfor %}
+    </div>
+
+    <div id="selectorPaginas">
+        {% if pagina > 1 %}
+            <a class="botonPagina" href="{{ url_for('listado', pagina=pagina - 1, ave=ave_id, orden=orden or None) }}">Anterior</a>
+        {% else %}
+            <span class="botonPagina botonDeshabilitado">Anterior</span>
+        {% endif %}
+
+        <span class="textoPagina">Página {{ pagina }} de {{ total_paginas }}</span>
+
+        {% if pagina < total_paginas %}
+            <a class="botonPagina" href="{{ url_for('listado', pagina=pagina + 1, ave=ave_id, orden=orden or None) }}">Siguiente</a>
+        {% else %}
+            <span class="botonPagina botonDeshabilitado">Siguiente</span>
+        {% endif %}
+    </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/listado.js') }}"></script>
+{% endblock %}
