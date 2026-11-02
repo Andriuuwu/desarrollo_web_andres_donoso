@@ -74,6 +74,21 @@ const mostrarMensaje = (mensaje, clase) => {
   mensajeComentario.className = clase;
 };
 
+const mostrarErrores = (errores) => {
+  mensajeComentario.innerHTML = "";
+  mensajeComentario.className = "mensajeErrorComentario";
+
+  const lista = document.createElement("ul");
+
+  for (const error of errores) {
+    const item = document.createElement("li");
+    item.textContent = error;
+    lista.appendChild(item);
+  }
+
+  mensajeComentario.appendChild(lista);
+};
+
 const enviarComentario = (nombre, texto) => {
   fetch(`/comentarios/${avistamientoId}`, {
     method: "POST",
@@ -109,13 +124,18 @@ formComentario.addEventListener("submit", (evento) => {
   const nombre = formComentario["nombre"].value;
   const texto = formComentario["texto"].value;
 
+  let errores = [];
+
   if (!validarNombreComentario(nombre)) {
-    mostrarMensaje("El nombre debe tener entre 3 y 50 caracteres.", "mensajeErrorComentario");
-    return;
+    errores.push("Nombre: debe tener entre 3 y 50 caracteres.");
   }
 
   if (!validarTextoComentario(texto)) {
-    mostrarMensaje("El comentario debe tener entre 5 y 300 caracteres.", "mensajeErrorComentario");
+    errores.push("Comentario: debe tener entre 5 y 300 caracteres.");
+  }
+
+  if (errores.length > 0) {
+    mostrarErrores(errores);
     return;
   }
 
