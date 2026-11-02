@@ -1,7 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, jsonify
 from werkzeug.utils import secure_filename
 import database.db as db
-from utils.validations import validarVoluntario, validarAvistamiento, validarPagina
+from utils.validations import *
 import hashlib
 import filetype
 import uuid
@@ -202,6 +202,7 @@ def detalle(avistamiento_id):
         })
 
     data = {
+        "id": avistamiento.id,
         "voluntario": avistamiento.voluntario.nombre,
         "ave": avistamiento.ave.nombre,
         "lugar": avistamiento.lugar,
@@ -210,6 +211,53 @@ def detalle(avistamiento_id):
     }
 
     return render_template("detalle.html", avistamiento=data, pagina=pagina, ave_id=ave_id, orden=orden)
+
+# Ruta para ver las estadisticas
+@app.route("/estadisticas", methods=["GET"])
+def estadisticas():
+    return render_template("estadisticas.html")
+
+# Grafico 1
+@app.route("/datos-avistamientos-por-dia", methods=["GET"])
+def datosAvistamientosPorDia():
+    return jsonify(db.obtenerAvistamientosPorDia())
+
+# Grafico 2
+@app.route("/datos-avistamientos-por-ave", methods=["GET"])
+def datosAvistamientosPorAve():
+    return jsonify(db.obtenerAvistamientosPorAve())
+
+# Grafico 3
+@app.route("/datos-voluntarios-por-comuna", methods=["GET"])
+def datosVoluntariosPorComuna():
+    return jsonify(db.obtenerVoluntariosPorComuna())
+
+# Ruta para ver los comentarios
+@app.route("/comentarios/<int:avistamiento_id>", methods=["GET"])
+def obtenerComentarios(avistamiento_id):
+    if db.obtenerAvistamientoID(avistamiento_id) is None:
+        return jsonify({"status": "error", "mensaje": "El avistamiento no existe."}), 404
+
+    comentarios = db.obtenerComentariosAvistamiento(avistamiento_id)
+    return jsonify({"status": "ok", "data": comentarios})
+
+@app.route("/comentarios/<int:avistamiento_id>", methods=["POST"])
+def agregarComentario(avistamiento_id):
+    datos = request.get_json(silent=True) or {}
+    nombre = datos.get("nombre")
+    texto = datos.get("texto")
+
+    if not isinstance(nombre, str) or not isinstance(texto, str):
+        return jsonify({"status": "error", "mensaje": "Datos inválidos."}), 400
+
+    if not validarComentario(nombre, texto):
+        return jsonify({"status": "error", "mensaje": "El nombre debe tener entre 3 y 50 caracteres y el comentario entre 5 y 300."}), 400
+
+    exito, mensaje = db.registrarComentario(nombre.strip(), texto.strip(), avistamiento_id)
+    if not exito:
+        return jsonify({"status": "error", "mensaje": mensaje}), 404
+
+    return jsonify({"status": "ok"})
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -73,6 +73,8 @@ class Avistamiento(Base):
     voluntario = relationship("Voluntario", back_populates="avistamientos")
     ave = relationship("Ave")
     registros = relationship("Registro", back_populates="avistamiento", cascade="all, delete")
+    # Agregamos una relación de comentario y avistamiento, dado que van relacionadas (Valga la redundancia)
+    comentarios = relationship("Comentario", back_populates="avistamiento", cascade="all, delete")
 
 class Registro(Base):
     __tablename__ = 'registro'
@@ -83,6 +85,19 @@ class Registro(Base):
     avistamiento_id = Column(Integer, ForeignKey('avistamiento.id'), nullable=False)
 
     avistamiento = relationship("Avistamiento", back_populates="registros")
+
+# Creamos el nuevo modelo correspondiente a la tabla Comentario
+class Comentario(Base):
+    __tablename__ = 'comentario'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre = Column(String(80), nullable=False)
+    texto = Column(String(300), nullable=False)
+    # func.now() entrega la fecha y hora al momento de la inserción del dato.
+    fecha = Column(DateTime, nullable=False, default=func.now())
+    avistamiento_id = Column(Integer, ForeignKey('avistamiento.id'), nullable=False)
+
+    avistamiento = relationship("Avistamiento", back_populates="comentarios")
 
 # Funcion para la Portada
 
@@ -259,3 +274,81 @@ def obtenerAvistamientoID(id):
     )
     session.close()
     return avistamiento
+
+# Funciones de Estadisticas
+
+def obtenerAvistamientosPorDia():
+    session = SessionLocal()
+    filas = (
+        session.query(func.date(Avistamiento.fecha_hora), func.count(Avistamiento.id))
+        .group_by(func.date(Avistamiento.fecha_hora))
+        .order_by(func.date(Avistamiento.fecha_hora))
+        .all()
+    )
+    session.close()
+    return [{"fecha": fecha.strftime("%Y-%m-%d"), "cantidad": cantidad} for fecha, cantidad in filas]
+
+def obtenerAvistamientosPorAve():
+    session = SessionLocal()
+    filas = (
+        session.query(Ave.nombre, func.count(Avistamiento.id))
+        .join(Avistamiento, Avistamiento.ave_id == Ave.id)
+        .group_by(Ave.id, Ave.nombre)
+        .order_by(func.count(Avistamiento.id).desc())
+        .all()
+    )
+    session.close()
+    return [{"ave": nombre, "cantidad": cantidad} for nombre, cantidad in filas]
+
+def obtenerVoluntariosPorComuna():
+    session = SessionLocal()
+    filas = (
+        session.query(Comuna.nombre, func.count(Voluntario.id))
+        .join(Voluntario, Voluntario.comuna_id == Comuna.id)
+        .group_by(Comuna.id, Comuna.nombre)
+        .order_by(Comuna.nombre)
+        .all()
+    )
+    session.close()
+    return [{"comuna": nombre, "cantidad": cantidad} for nombre, cantidad in filas]
+
+# Funciones de Comentarios
+
+def obtenerComentariosAvistamiento(avistamiento_id):
+    session = SessionLocal()
+    comentarios = (
+        session.query(Comentario)
+        .filter_by(avistamiento_id=avistamiento_id)
+        .order_by(Comentario.fecha.desc(), Comentario.id.desc())
+        .all()
+    )
+    resultado = [
+        {
+            "id": comentario.id,
+            "nombre": comentario.nombre,
+            "texto": comentario.texto,
+            "fecha": comentario.fecha.strftime("%d/%m/%Y %H:%M")
+        }
+        for comentario in comentarios
+    ]
+    session.close()
+    return resultado
+
+def crearComentario(nombre, texto, avistamiento_id):
+    session = SessionLocal()
+    nuevo_comentario = Comentario(
+        nombre=nombre,
+        texto=texto,
+        fecha=datetime.now(),
+        avistamiento_id=avistamiento_id
+    )
+    session.add(nuevo_comentario)
+    session.commit()
+    session.close()
+
+def registrarComentario(nombre, texto, avistamiento_id):
+    if obtenerAvistamientoID(avistamiento_id) is None:
+        return False, "El avistamiento no existe."
+
+    crearComentario(nombre, texto, avistamiento_id)
+    return True, None

@@ -31,5 +31,24 @@
             <p>Este avistamiento no tiene archivos.</p>
         {% endfor %}
     </div>
+    <h3 id="tituloComentarios">Comentarios</h3>
+    <form id="formComentario" novalidate>
+        <div id="mensajeComentario" role="alert"></div>
+
+        <label for="nombreComentario">Nombre (*)</label>
+        <input type="text" id="nombreComentario" name="nombre" maxlength="50" required>
+
+        <label for="textoComentario">Comentario (*)</label>
+        <textarea id="textoComentario" name="texto" rows="3" cols="40" maxlength="300" required></textarea>
+
+        <button type="submit" id="botonComentario">Agregar comentario</button>
+    </form>
+    <div id="listaComentarios" data-avistamiento-id="{{ avistamiento.id }}">
+        <p>Cargando comentarios...</p>
+    </div>
 </section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/comentarios.js') }}"></script>
 {% endblock %}

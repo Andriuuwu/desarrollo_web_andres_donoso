@@ -1,0 +1,55 @@
+.contEstadisticas {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+}
+
+#tituloEstadisticas {
+    text-align: center;
+    color: #333;
+    margin-top: 0;
+}
+
+.graficoEstadistica {
+    background-color: #FFF9C4;
+    border-radius: 8px;
+    border: 2px solid black;
+    padding: 10px 20px 20px 20px;
+    margin-bottom: 25px;
+}
+
+.graficoEstadistica h3 {
+    color: #333;
+    text-align: center;
+}
+
+.graficoEstadistica > div {
+    width: 100%;
+    height: 400px;
+}
+
+.botonVolver {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+.botonVolver:hover {
+    background-color: #0056b3;
+}
+
+@media (max-width: 480px) {
+    .contEstadisticas {
+        padding: 15px;
+    }
+
+    .graficoEstadistica {
+        padding: 10px;
+    }
+}

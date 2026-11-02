@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Estadísticas - Avistamiento de Aves{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/estadisticas.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="contEstadisticas">
+    <h2 id="tituloEstadisticas">Estadísticas</h2>
+
+    <div class="graficoEstadistica">
+        <h3>Avistamientos por día</h3>
+        <div id="graficoLineas"></div>
+    </div>
+
+    <div class="graficoEstadistica">
+        <h3>Avistamientos por tipo de ave</h3>
+        <div id="graficoTorta"></div>
+    </div>
+
+    <div class="graficoEstadistica">
+        <h3>Voluntarios por comuna</h3>
+        <div id="graficoBarras"></div>
+    </div>
+
+    <a class="botonVolver" href="{{ url_for('portada') }}">Volver a la portada</a>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="{{ url_for('static', filename='js/estadisticas.js') }}"></script>
+{% endblock %}

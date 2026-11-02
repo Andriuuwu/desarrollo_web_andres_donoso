@@ -1,10 +1,7 @@
-Tarea 2 - Desarrollo de Aplicaciones Web
-Hecho por Andres Donoso:
+Tarea 3 - Desarrollo de Aplicaciones Web
+Hecho por: Andres Donoso
 
-Mi tarea 2 reusa las secciones implementadas en la tarea 1 con la diferencia de que ahora trabajamos con una base de datos como tal. Se destaca principalmente la implementación de app.py, db.py, portada(.html/.css), registro_exito.html y otras cosas, pero todo lo correspondiente a la tarea.
-
-En cuanto a algunas decisiones tomadas puedo decirles lo siguiente:
-
-- Decidi que los errores de validaciones se ejecutarán en ambos lados, es decir, en el JS y en el servidor, y en particular el js se encargaría de mostrar los errores al usuario.
-- Para la estructura del código me inspiré fuertemente en los Auxiliares 4 y 5 ya que eran una buena base para lo que quería implementar.
-- Se eliminaron los html, css y js de indicadores para esta entrega, en caso de necesitarlos se consultará el enlace git de la primera entrega.
+Esta tercera entrega consiste en una continuación sobre la Tarea 2 al implementar la sección de Estadisticas y al agregar detalles a cada uno de los avistamientos en el caso de los comentarios. A continuación explico algunas de las decisiones que tomé al momento de desarrollar esta tarea:
+1. Elegi usar el método de fetch para las peticiones asíncronas ya que es el más simple y comodo de usar
+2. Cree 3 avistamientos junto con 3 voluntarios para que se vieran ejemplos concretos para cada uno de los gráficos
+3. El estilo de cada una de las nuevas interfaces implementadas siguen el mismo estilo de las que ya habian sido implementadas en la tarea 2.

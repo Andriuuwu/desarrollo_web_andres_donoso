@@ -85,3 +85,13 @@ def validarPagina(pagina):
         return False
 
     return True
+
+# Función para validar comentarios
+def validarComentario(nombre, texto):
+    if not nombre or len(nombre.strip()) < 3 or len(nombre) > 50:
+        return False
+
+    if not texto or len(texto.strip()) < 5 or len(texto) > 300:
+        return False
+
+    return True
